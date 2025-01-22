@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3 class="text-center text-[25px]">Checkout</h3>
+<div class="grid grid-cols-[40%,60%] mx-8">
+    <div class="px-5">
+        <h3 class="text-center">your order</h3>
+        <form method="" class="px-5">
+            <div class="flex flex-col">
+                <label for="firstname">firstname</label>
+                <input type="text"
+                class="border-gray-900 border-2 rounded-md"
+                >
+            </div>
+            <div class="flex flex-col mt-2">
+                <label for="firstname">last name</label>
+                <input type="text"
+                class="border-gray-900 border-2 rounded-md">
+            </div>
+            <div class="flex flex-col mt-2">
+                <label for="email">email</label>
+                <input type="email"
+                class="border-gray-900 border-2 rounded-md"
+                >
+            </div>
+            <div class="flex flex-col mt-2">
+                <label for="address">address</label>
+                <input type="text"
+                class="border-gray-900 border-2 rounded-md"
+                >
+            </div>
+            <div class="flex flex-col mt-2">
+                <label for="postal code">postal code</label>
+                <input type="text"
+                class="border-gray-900 border-2 rounded-md"
+                >
+            </div>
+            <div class="flex flex-col mt-2">
+                <label for="city">city</label>
+                <input type="text"
+                class="border-gray-900 border-2 rounded-md"
+                >
+            </div>
+            <button type="submit" class="px-3 mt-4 py-2 bg-blue-400
+             rounded-md text-white">create order</button>
+        </form>
+    </div>
+    <div class="bg-gray-100 text-gray-900 rounded-md px-6 shadow_md w-full">
+        <h2>your order</h2>
+        <ol>
+            {% for item in cart %}
+                <li>
+                    {{item.quantity}}x{{item.product.name}}
+                    <span>${{item.total_price}}</span>
+                </li>
+            {% endfor %}
+        </ol>
+        <div>Total :${{cart.get_total_price}}</div>
+    </div>
+</div>
+{% endblock %}

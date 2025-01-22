@@ -1,0 +1,79 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center mt-5">Shopping Cart Details</h2>
+<div class="container mx-auto">
+    <table class="table table-striped table-bordered">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th class="px-6 py-3">Image</th>
+                <th class="px-6 py-3">Product</th>
+                <th class="px-6 py-3">Quantity</th>
+                <th class="px-6 py-3">Unit Price</th>
+                <th class="px-6 py-3">Total Price</th>
+                <th class="px-6 py-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            <tr>
+                <!-- Product Image -->
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <a href="{{ item.product.get_absolute_url }}">
+                        <img src="{{ item.product.image.url }}" class="w-[80px] h-[59px]" alt="{{ item.product.name }}" style="width: 100px; height: auto;">
+                    </a>
+                </td>
+
+                <!-- Product Name -->
+                <td>{{ item.product.name }}</td>
+
+                <!-- Quantity -->
+                <td>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="number" 
+                        name="quantity"
+                        value="{{ item.quantity }}" min="1" 
+                        class="form-control" style="width: 70px; display: inline-block;">
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    </form>
+                </td>
+
+                <!-- Unit Price -->
+                <td>${{ item.price }}</td>
+
+                <!-- Total Price -->
+                <td>${{ item.total_price }}</td>
+
+                <!-- Remove Button -->
+                <td>
+                    <form method="post" action="{% url 'cart_remove' item.product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Your cart is empty!</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Subtotal and Actions -->
+    <div class="mt-4 d-flex justify-content-between">
+        <div class="bg-red-400 text-white px-3 py-2 rounded-md">clear cart</div>
+        <div>
+            <a href="{% url 'product_list' %}" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+        <div class="flex flex-col">
+            <h4>Subtotal: ${{ cart.get_sub_total_price }}</h4>
+            <a href="{% url 'order_create' %}" class="px-3 py-2 bg-blue-400 text-white mt-4 rounded-md">Checkout</a>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

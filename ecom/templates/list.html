@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid grid-cols-[30%,70%]">
+    <div id="sidebar" class="h-screen">
+        <h3 class="text-gray-900 font-bold px-4 text-[24px] mt-4">Categories</h3>
+        <ul class="px-5">
+            <li{% if not category %} {% endif %}><a href="{% url 'product_list' %}">all products</a></li>
+            {% for c in categories %}
+                <li class="px-2">
+                    <a href="{{c.get_absolute_url}}">{{c.name}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main-body mx-5">
+        <div class="grid grid-cols-3 gap-x-3 mt-6">
+            {% for product in products %} 
+            <div class=" rounded-md h-[234px] bg-slate-200">
+                <a href="{{product.get_absolute_url}}">
+                    <img src="{{product.image.url}}" class="h-[150px] w-full">
+
+                </a>
+                <div class="flex flex-col mx-5">
+                    <h2 class="text-[22px] text-gray-900 font-lg">{{product.name}}</h2>
+                    <p class="text-[22px] text-gray-900 font-md" >$:{{product.price}}</p>
+                </div>
+            </div>
+        {% endfor %}  
+        </div> 
+    </div>
+</div>
+{% endblock %}
